@@ -1,14 +1,24 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+// import axios from 'axios';
 
+const defaultUser = [
+    {
+        id: 1,
+        name: "Tausif Sheikh",
+        email: "xyz@gmail.com",
+        phone: 99787557,
+        salary: 54200,
+        age: 28,
+    }
+]
 const Users = () => {
-//   const [users, setUsers] = useState([]);
-  const API_URL = 'https://6803vmt1db.execute-api.us-east-1.amazonaws.com/Dev';
+  const [users, setUsers] = useState([]);
+//   const API_URL = 'https://6803vmt1db.execute-api.us-east-1.amazonaws.com/Dev';
   useEffect(()=> {
     const getData = async () => {
-        const {data} = await axios.get(API_URL);
-        console.log(data, "data");
-        // setUsers()
+        // const {data} = await axios.get(API_URL);
+        // console.log(data, "data");
+        setUsers(defaultUser)
     }
     getData();
   },[])
@@ -32,35 +42,34 @@ const Users = () => {
                       </thead>
                       <tbody>
                         <tr>
-                          <td>
-                            <i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong>
+                        {users.map((user)=> (
+                            <Fragment key={user.id}>
+                            <td>
+                            <i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>{user.id}</strong>
                           </td>
-                          <td>Albert Cook</td>
+                          <td><strong>{user.name}</strong></td>
                           <td>
                             <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                              <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" className="avatar avatar-xs pull-up" title="" data-bs-original-title="Christina Parker">
+                              <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" className="avatar avatar-xs pull-up" title="" data-bs-original-title={user.email}>
+                                {user.email}
                               </li>
                             </ul>
                           </td>
-                          <td><span className="badge bg-label-primary me-1">Active</span></td>
+                          <td><span className="badge bg-label-primary me-1">{user.phone}</span></td>
                           <td>
-                            <div className="dropdown">
-                              <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i className="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div className="dropdown-menu">
-                                <a className="dropdown-item" href="javascript:void(0);"><i className="bx bx-edit-alt me-1"></i> Edit</a>
-                                <a className="dropdown-item" href="javascript:void(0);"><i className="bx bx-trash me-1"></i> Delete</a>
-                              </div>
-                            </div>
+                            <span  className="bg-label-success me-1 fw-bold p-1 rounded-2">
+                            {user.salary}
+                            </span>
                           </td>
                           <td>
-                            <i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong>
+                            <strong>{user.age}</strong>
                           </td>
                           <td>
-                            <i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong>
+                            <strong>Angular Project</strong>
                           </td>
-                        </tr>                        
+                          </Fragment>
+                        ))}    
+                        </tr>                       
                       </tbody>
                     </table>
                   </div>
