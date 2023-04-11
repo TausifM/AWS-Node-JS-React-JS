@@ -1,27 +1,29 @@
 import React, { Fragment, useEffect, useState } from 'react'
-// import axios from 'axios';
+import axios from 'axios';
 
-const defaultUser = [
-    {
-        id: 1,
-        name: "Tausif Sheikh",
-        email: "xyz@gmail.com",
-        phone: 99787557,
-        salary: 54200,
-        age: 28,
-    }
-]
+// const defaultUser = [
+//     {
+//         id: 1,
+//         name: "Tausif Sheikh",
+//         email: "xyz@gmail.com",
+//         phone: 99787557,
+//         salary: 54200,
+//         age: 28,
+//     }
+// ]
 const Users = () => {
   const [users, setUsers] = useState([]);
-//   const API_URL = 'https://6803vmt1db.execute-api.us-east-1.amazonaws.com/Dev';
+  const API_URL = 'https://4pzkgjswy2.execute-api.us-east-1.amazonaws.com/Beta';
   useEffect(()=> {
     const getData = async () => {
-        // const {data} = await axios.get(API_URL);
-        // console.log(data, "data");
-        setUsers(defaultUser)
+        const {data} = await axios.get(API_URL);
+        setUsers(JSON.parse(data.body))
+        // console.log(JSON.parse(data.body), "data");
+        // setUsers(defaultUser)
     }
     getData();
   },[])
+  // console.log(users?.Items, "users");
 
   return (
         <div className="card m-5">
@@ -42,13 +44,13 @@ const Users = () => {
                       </thead>
                       <tbody>
                         <tr>
-                        {users.map((user)=> (
+                        {users?.Items.map((user)=> (
                             <Fragment key={user.id}>
                             <td>
                             <i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>{user.id}</strong>
                           </td>
                           <td><strong>{user.name}</strong></td>
-                          <td>
+                          <td className='ps-2'>
                             <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
                               <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" className="avatar avatar-xs pull-up" title="" data-bs-original-title={user.email}>
                                 {user.email}
@@ -64,8 +66,8 @@ const Users = () => {
                           <td>
                             <strong>{user.age}</strong>
                           </td>
-                          <td>
-                            <strong>Angular Project</strong>
+                          <td className='text-center'>
+                            <button className='btn btn-danger'>Remove</button>
                           </td>
                           </Fragment>
                         ))}    
